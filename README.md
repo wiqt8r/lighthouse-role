@@ -1,8 +1,5 @@
 # Ansible Role: lighthouse-role
 
-[![Ansible Role](https://img.shields.io/ansible/role/d/54135)](https://galaxy.ansible.com/ui/standalone/roles/wiqt8r/lighthouse-role)
-[![GitHub release](https://img.shields.io/github/v/release/wiqt8r/lighthouse-role)](https://github.com/wiqt8r/lighthouse-role/releases)
-
 Роль для автоматизированной установки и настройки веб-интерфейса [Lighthouse](https://github.com/VKCOM/lighthouse) — системы мониторинга и управления для ClickHouse.
 
 ## Описание роли
