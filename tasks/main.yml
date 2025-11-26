@@ -1,0 +1,49 @@
+---
+- name: Install nginx and git on RedHat family
+  become: true
+  ansible.builtin.yum:
+    name:
+      - nginx
+      - git
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Install nginx and git on Debian family
+  become: true
+  ansible.builtin.apt:
+    name:
+      - nginx
+      - git
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: Create lighthouse docroot directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ lighthouse_docroot }}"
+    state: directory
+    mode: "0755"
+
+- name: Clone lighthouse repository
+  become: true
+  ansible.builtin.git:
+    repo: "{{ lighthouse_repo_url }}"
+    dest: "{{ lighthouse_docroot }}"
+    version: master
+    force: true
+
+- name: Deploy nginx config for lighthouse
+  become: true
+  ansible.builtin.template:
+    src: "lighthouse.conf.j2"
+    dest: "{{ lighthouse_nginx_conf }}"
+    mode: "0644"
+  notify: restart nginx
+
+- name: Ensure nginx is enabled and running
+  become: true
+  ansible.builtin.service:
+    name: "{{ lighthouse_nginx_service_name }}"
+    state: started
+    enabled: true
